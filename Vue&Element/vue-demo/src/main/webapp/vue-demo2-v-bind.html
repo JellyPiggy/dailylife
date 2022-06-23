@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <a v-bind:href="url">百度一下</a>
+    <!-- 可以简写成这样<a :href="url">百度一下</a> -->
+    <input v-model="url">
+</div>
+
+<script src="js/vue.js"></script>
+<script>
+    new Vue({
+        el:"#app",
+        data: {
+                username:"",
+                url:"https://www.baidu.com"
+            }
+    });
+</script>
+</body>
+</html>

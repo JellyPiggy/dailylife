@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <div v-if="count == 3">哈哈</div>
+    <div v-else-if="count == 4">嘿嘿</div>
+    <div v-else>呵呵</div>
+    <input v-model="count">
+</div>
+
+<script src="js/vue.js"></script>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            count:3
+        },
+        methods: {
+            show() {
+                alert("我被点了");
+            }
+        }
+    });
+</script>
+</body>
+</html>

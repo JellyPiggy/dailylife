@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .el-table .warning-row {
+            background: oldlace;
+        }
+
+        .el-table .success-row {
+            background: #f0f9eb;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+
+    <!--搜索框-->
+    <el-form :inline="true" :model="brand" class="demo-form-inline">
+        <el-form-item label="当前状态">
+            <el-select v-model="brand.status" placeholder="当前状态">
+                <el-option label="启用" value="1"></el-option>
+                <el-option label="禁用" value="0"></el-option>
+            </el-select>
+        </el-form-item>
+        <el-form-item label="品牌名称">
+            <el-input v-model="brand.brandName" placeholder="品牌名称"></el-input>
+        </el-form-item>
+        <el-form-item label="企业名称">
+            <el-input v-model="brand.companyName" placeholder="企业名称"></el-input>
+        </el-form-item>
+        <el-form-item>
+            <el-button type="primary" @click="onSubmit">查询</el-button>
+        </el-form-item>
+    </el-form>
+
+
+    <!--批量删除和新增-->
+    <el-row>
+        <el-button type="danger" plain>批量删除</el-button>
+        <el-button type="primary" plain @click="dialogFormVisible = true">新增</el-button>
+    </el-row>
+    <!-- 用于新增的Form -->
+    <el-dialog title="新增品牌信息" :visible.sync="dialogFormVisible">
+        <el-form :model="brand" size="mini">
+            <el-form-item label="品牌名称">
+                <el-input v-model="brand.brandName" placeholder="品牌名称"></el-input>
+            </el-form-item>
+            <el-form-item label="企业名称">
+                <el-input v-model="brand.companyName" placeholder="企业名称"></el-input>
+            </el-form-item>
+            <el-form-item label="排序">
+                <el-input v-model="brand.ordered" placeholder="排序"></el-input>
+            </el-form-item>
+            <el-form-item label="企业描述">
+                <el-input type="textarea" v-model="brand.description" placeholder="企业描述"></el-input>
+            </el-form-item>
+            <el-form-item label="是否启用">
+                <el-switch v-model="brand.status" active-value="1" inactive-value="0"></el-switch>
+            </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button @click="dialogFormVisible = false">取 消</el-button>
+            <el-button type="primary" @click="dialogFormVisible = false;andBrand()">确 定</el-button>
+        </div>
+    </el-dialog>
+
+    <!--数据表格-->
+    <template>
+        <el-table
+                :data="tableData"
+                style="width: 100%"
+                :row-class-name="tableRowClassName"
+                @selection-change="handleSelectionChange">
+            <el-table-column
+                    type="selection"
+                    width="55">
+            </el-table-column>
+            <el-table-column
+                    type="index"
+                    width="50">
+            </el-table-column>
+            <el-table-column
+                    prop="brandName"
+                    label="品牌名称"
+                    align="center">
+            </el-table-column>
+            <el-table-column
+                    prop="companyName"
+                    label="企业名称"
+                    align="center">
+            </el-table-column>
+            <el-table-column
+                    prop="ordered"
+                    align="center"
+                    label="排序">
+            </el-table-column>
+            <el-table-column
+                    prop="status"
+                    align="center"
+                    label="当前状态">
+            </el-table-column>
+
+            <el-table-column
+                    align="center"
+                    label="操作">
+                <el-row>
+                    <el-button type="primary">修改</el-button>
+                    <el-button type="danger">删除</el-button>
+                </el-row>
+            </el-table-column>
+        </el-table>
+    </template>
+
+    <!--分页工具条-->
+    <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="currentPage"
+            :page-sizes="[5, 10, 15, 20]"
+            :page-size="5"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="400">
+    </el-pagination>
+
+</div>
+
+<script src="js/vue.js"></script>
+<script src="element-ui/lib/index.js"></script>
+<link rel="stylesheet" href="element-ui/lib/theme-chalk/index.css">
+<script>
+    new Vue({
+        el: "#app",
+        data() {
+            return {
+                //品牌模型数据
+                brand: {
+                    status: '',
+                    brandName: '',
+                    companyName: '',
+                    description: '',
+                    ordered: ''
+                },
+
+                //表格数据
+                tableData: [{
+                    brandName: '小米',
+                    companyName: '小米公司',
+                    ordered: '20',
+                    status: 1
+                }, {
+                    brandName: '小米',
+                    companyName: '小米公司',
+                    ordered: '20',
+                    status: 1
+                }, {
+                    brandName: '小米',
+                    companyName: '小米公司',
+                    ordered: '20',
+                    status: 1
+                }, {
+                    brandName: '小米',
+                    companyName: '小米公司',
+                    ordered: '20',
+                    status: 1
+                }],
+
+                //多选框选中数据的集合
+                multipleSelection: [],
+
+                //新增品牌对话框表单
+                dialogFormVisible: false,
+                formLabelWidth: '120px',
+
+                //当前页码
+                currentPage: 1
+            }
+        },
+        methods: {
+            //查询
+            onSubmit() {  //到时候写查询的方法
+                console.log(this.brand);
+            },
+
+            //表格
+            tableRowClassName({row, rowIndex}) {
+                if (rowIndex === 1) {
+                    return 'warning-row';
+                } else if (rowIndex === 3) {
+                    return 'success-row';
+                }
+                return '';
+            },
+
+            //批量删除，val为一行的数据
+            handleSelectionChange(val) {
+                this.multipleSelection = val;
+                console.log(val);
+            },
+
+            //新增
+            andBrand() {
+                console.log(this.brand);
+            },
+
+            //分页
+            handleSizeChange(val) {
+                console.log(`每页 ${val} 条`);
+            },
+            handleCurrentChange(val) {
+                console.log(`当前页: ${val}`);
+            }
+        }
+    });
+</script>
+</body>
+</html>

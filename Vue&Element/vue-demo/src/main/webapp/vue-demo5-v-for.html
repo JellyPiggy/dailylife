@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+
+    <div v-for="loc in locations">
+        {{loc}}
+    </div>
+
+    <div v-for="(loc, i) in locations">
+        {{i + 1}}--{{loc}}
+    </div>
+
+</div>
+
+<script src="js/vue.js"></script>
+<script>
+    new Vue({
+        el: "#app",
+        data:{
+            locations:["北京", "上海", "深圳", "广州"]
+        }
+    });
+</script>
+</body>
+</html>
