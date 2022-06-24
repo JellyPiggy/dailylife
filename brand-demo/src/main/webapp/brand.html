@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <a href="addBrand.html"><input type="button" value="新增"></a><br>
+    <hr>
+    <table id="brandTable" border="1" cellspacing="0" width="100%">
+        <tr>
+            <th>序号</th>
+            <th>品牌名称</th>
+            <th>企业名称</th>
+            <th>排序</th>
+            <th>品牌介绍</th>
+            <th>状态</th>
+            <th>操作</th>
+        </tr>
+        <tr v-for="(brand, i) in brands" align="center">
+            <td>{{i + 1}}</td>
+            <td>{{brand.brandName}}</td>
+            <td>{{brand.companyName}}</td>
+            <td>{{brand.ordered}}</td>
+            <td>{{brand.description}}</td>
+            <td>{{brand.status}}</td>
+            <td><a href="#">修改</a> <a href="#">删除</a></td>
+        </tr>
+    </table>
+</div>
+<script src="js/axios-0.18.0.js"></script>
+<script src="js/vue.js"></script>
+<script src="element-ui/lib/index.js"></script>
+<link rel="stylesheet" href="element-ui/lib/theme-chalk/index.css">
+<script>
+
+    new Vue({
+        el: "#app",
+        data() {
+            return {
+                brands:[]
+            }
+        },
+        mounted() { //当页面加载完成后发送异步请求
+
+            /*axios({
+                method: "get",
+                url: "http://localhost:8080/brand-demo/selectAll/servlet"
+            }).then(function (response) {
+                //获取数据
+                let brands = response.data;
+                //将数据赋给data中的数组
+                this.brands = brands;
+            });*/
+
+            // 像上面这样写是错的，因为axios中的this是window
+            // 在axios 外边的this就是对应的vue的this
+            let _this = this;
+            axios({
+                method: "get",
+                url: "http://localhost:8080/brand/selectAll/servlet"
+            }).then(function (response) {
+                //获取数据
+                let brands = response.data;
+                //将数据赋给data中的数组
+                _this.brands = brands;
+            });
+        }
+    });
+</script>
+</body>
+</html>
