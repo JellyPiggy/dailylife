@@ -1,0 +1,5 @@
+com\jide\domain\Book.class
+com\jide\controller\BookController.class
+com\jide\config\SpringConfig.class
+com\jide\config\SpringMvcConfig.class
+com\jide\config\ServletContainersConfig.class
