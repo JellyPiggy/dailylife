@@ -1,0 +1,11 @@
+server:
+  port: 10086
+#为了做服务注册配置以下信息
+spring:
+  application:
+    name: eureka-server #eureka服务名称    每个微服务要有自己的服务名称
+eureka:
+  client:
+    service-url:  #eureka的地址信息
+      defaultZone: http://127.0.0.1:10086/eureka
+#它自己就是eureka为啥要配eureka地址信息？因为它自己也是一个服务，eureka在启动的时候会把自己也注册到eureka上,为了给以后eureka集群通讯用的

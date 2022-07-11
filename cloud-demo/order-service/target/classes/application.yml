@@ -1,0 +1,42 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/cloud_order?useSSL=false
+    username: root
+    password: lzy
+    driver-class-name: com.mysql.jdbc.Driver
+  #为了做order服务注册配置以下信息
+  application:
+    name: orderservice
+  cloud:
+    nacos:
+      server-addr: localhost:8848
+      discovery:
+        cluster-name: SH
+        ephemeral: false  #设为非临时实例
+      namespace: 88f22b9c-b6fa-4335-9a91-ac2cc4e66c4d   #命名空间，填ID
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://127.0.0.1:10086/eureka
+#为了做user服务注册配置以上信息
+userservice:
+  ribbon:
+    NFLoadBalancerRuleClassName: com.alibaba.cloud.nacos.ribbon.NacosRule  #负载均衡规则
+mybatis:
+  type-aliases-package: cn.itcast.user.pojo
+  configuration:
+    map-underscore-to-camel-case: true
+logging:
+  level:
+    cn.itcast: debug
+  pattern:
+    dateformat: MM-dd HH:mm:ss:SSS
+ribbon:
+  eager-load:
+    enabled: true #开启饥饿加载
+    clients: userservice  #指定饥饿加载的服务名称，clients是个集合，一个时可以直接加后面，多个时下面这样
+   #clients:
+   #  - userservice
+   #  - xxxservice
